@@ -1,0 +1,8 @@
+{
+  "prefix": "",
+  "subprefix": "",
+  "blacklist": ["", ""],
+  "developers": ["", ""],
+  "moderators": ["", ""],
+  "administrators": ["", ""]
+}

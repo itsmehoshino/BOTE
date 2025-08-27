@@ -1,5 +1,6 @@
 import path from "path";
 import fs from "fs-extra";
+import utils from "@ax-plugins/utils"
 import { log } from "@ax-ui/custom";
 import starter from "@ax-ui/console";
 import EventEmitter from "events";
@@ -10,17 +11,17 @@ global.bot = bot;
 process.on("unhandledRejection", (error) => log("ERROR", error));
 process.on("uncaughtException", (error) => log("ERROR", error.stack));
 
-global.Axion = {
+globalThis.Axion = {
   get config() {
     try {
-      return JSON.parse(fs.readFileSync(path.join(__dirname, "settings.json")));
+      return JSON.parse(fs.readFileSync(path.join(__dirname, "..", "settings.json")));
     } catch (error) {
       log("ERROR", error);
       return {};
     }
   },
   set config(config) {
-    const data = global.Axion.config;
+    const data = globalThis.Axion.config;
     const newData = { ...data, ...config };
     const str = JSON.stringify(newData, null, 2);
     fs.writeFileSync(path.join(__dirname, "settings.json"), str);
@@ -29,8 +30,9 @@ global.Axion = {
   commands: new Map(),
   replies: new Map(),
   events: new Map(),
+  utils: utils,
 };
- Object.assign(global.Axion, {
+ Object.assign(globalThis.Axion, {
    get prefix() {
      return global.Axion.config.prefix;
    },

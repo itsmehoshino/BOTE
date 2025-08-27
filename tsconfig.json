@@ -27,7 +27,12 @@
     "paths": {
       "@root": ["./*"],
       "@ax-ui/*": ["./source/system/starter/*"],
-      "@ax-core/*": []
+      "@ax-login/*": ["./source/system/controls/plugins/logger/*"],
+      "@ax-sys/*": ["./source/system/controls/*"],
+      "@ax-plugins/*": ["./source/system/controls/plugins/*"],
+      "@ax-handler/*": ["./source/system/controls/handlers/*"],
+      "@ax-modules/*": ["./axion/modules/*"],
+      "@ax-resources/*": ["./axion/resources/*"]
     }
   },
   "include": ["**/*.js", "**/*.ts"],
