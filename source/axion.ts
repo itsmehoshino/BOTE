@@ -31,7 +31,7 @@ globalThis.Axion = {
     }
   },
   set config(config: AxionConfig) {
-    const data = globalThis.Axion.config;
+    const data = Axion.config;
     const newData = { ...data, ...config };
     const str = JSON.stringify(newData, null, 2);
     fs.writeFileSync(path.join(__dirname, "settings.json"), str);
@@ -41,6 +41,9 @@ globalThis.Axion = {
   replies: new Map(),
   events: new Map(),
   utils: utils,
+  registerCmd(cmd) {
+    return utils.registerCommand(cmd)
+  }
 };
 
 async function main() {
