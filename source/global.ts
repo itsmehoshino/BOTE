@@ -1,4 +1,5 @@
 import utils from "@ax-plugins/utils";
+import { AxionResponse } from "@ax-handler/response/response";
 
 declare global {
   type AxionConfig = typeof import("../settings.json");
@@ -46,7 +47,7 @@ declare global {
       noPrefix?: true | false | "both";
     }
     export interface CommandContext {
-      response: unknown; // where is it?
+      response: AxionResponse;
     }
     export interface Cooldown {}
     export interface Reply {}
