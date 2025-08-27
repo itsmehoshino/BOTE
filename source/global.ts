@@ -1,5 +1,6 @@
 import utils from "@ax-plugins/utils";
 import { AxionResponse } from "@ax-handler/response/response";
+import { API, Message, MessageReply } from "ws3-fca";
 
 declare global {
   type AxionConfig = typeof import("../settings.json");
@@ -48,6 +49,8 @@ declare global {
     }
     export interface CommandContext {
       response: AxionResponse;
+      api: API;
+      event: Message | MessageReply;
     }
     export interface Cooldown {}
     export interface Reply {}
