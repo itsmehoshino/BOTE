@@ -1,26 +1,36 @@
 import path from "path";
 import fs from "fs-extra";
-import utils from "@ax-plugins/utils"
+import utils from "@ax-plugins/utils";
 import { log } from "@ax-ui/custom";
 import starter from "@ax-ui/console";
 import EventEmitter from "events";
+import "./global";
 
 const bot = new EventEmitter();
-global.bot = bot;
+globalThis.bot = bot;
 
 process.on("unhandledRejection", (error) => log("ERROR", error));
 process.on("uncaughtException", (error) => log("ERROR", error.stack));
 
 globalThis.Axion = {
-  get config() {
+  get config(): AxionNS.Config {
     try {
-      return JSON.parse(fs.readFileSync(path.join(__dirname, "..", "settings.json")));
+      return JSON.parse(
+        fs.readFileSync(path.join(__dirname, "..", "settings.json"), "utf8"),
+      ) as AxionConfig;
     } catch (error) {
       log("ERROR", error);
-      return {};
+      return {
+        administrators: [],
+        blacklist: [],
+        developers: [],
+        moderators: [],
+        prefix: "",
+        subprefix: "",
+      };
     }
   },
-  set config(config) {
+  set config(config: AxionConfig) {
     const data = globalThis.Axion.config;
     const newData = { ...data, ...config };
     const str = JSON.stringify(newData, null, 2);
@@ -32,26 +42,9 @@ globalThis.Axion = {
   events: new Map(),
   utils: utils,
 };
- Object.assign(globalThis.Axion, {
-   get prefix() {
-     return global.Axion.config.prefix;
-   },
-   get subprefix() {
-     return global.Axion.config.subprefix;
-   },
-   get developer() {
-     return global.Axion.config.developer;
-   },
-   get moderators() {
-     return global.Axion.config.moderators;
-   },
-   get administrator() {
-     return global.Axion.config.administrator;
-   }
- });
 
 async function main() {
-  await starter()
+  await starter();
 }
 
 main();
