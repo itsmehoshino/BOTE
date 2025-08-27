@@ -7,7 +7,7 @@ Axion.registerCmd({
     aliases: ["ex", "test"]
   },
   async onCall({ response }) {
-    re
+    
   }
 })
 
