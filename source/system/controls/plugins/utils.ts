@@ -1,4 +1,4 @@
-import { resolve, join } from "path";
+import { join } from "path";
 import { readdir } from "fs/promises";
 import { log } from "@ax-ui/custom";
 
@@ -7,9 +7,7 @@ const utils = {
     const commandsPath = join(process.cwd(), "axion", "modules", "commands");
     log("DEBUG", `Loading commands from ${commandsPath}`);
     const loadFiles = await readdir(commandsPath);
-    const commands = loadFiles.filter(
-      (file) => file.endsWith(".ts"),
-    );
+    const commands = loadFiles.filter((file) => file.endsWith(".ts"));
     if (commands.length === 0) {
       log("AXION", "No available commands found.");
       return;
@@ -18,9 +16,11 @@ const utils = {
       const commandPath = join(commandsPath, file);
       try {
         await import(commandPath);
-        log("SCAN", `Scanned ${file}`)
+        log("SCAN", `Scanned ${file}`);
       } catch (err) {
-        console.error(typeof err === "object" && err && "stack" in err ? err.stack : err);
+        console.error(
+          typeof err === "object" && err && "stack" in err ? err.stack : err,
+        );
       }
     }
   },
@@ -34,7 +34,9 @@ const utils = {
     meta.description ??= "";
     meta.noPrefix ??= false;
     if (!meta?.name || typeof onCall !== "function") {
-      throw new TypeError("The command is missing meta.name and a correct oncall function");
+      throw new TypeError(
+        "The command is missing meta.name and a correct oncall function",
+      );
     }
     Axion.commands.set(meta.name, command);
   },
