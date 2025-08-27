@@ -40,7 +40,7 @@ export class AxionResponse {
     }
   }
 
-  async setReply(message: string | MessageObject, goal: string) {
+  async setReply(message: string | MessageObject, goal: string = this.event.threadID) {
     if (!message || (!goal && !this.event.threadID)) {
       log("ERROR", "Invalid message or threadID");
       throw new Error("Invalid message or threadID");
@@ -78,7 +78,7 @@ export class AxionResponse {
     }
   }
 
-  async reply(message: string | MessageObject, goal: string) {
+  async reply(message: string | MessageObject, goal: string = this.event.threadID) {
     if (!message || (!goal && !this.event.threadID)) {
       log("ERROR", "Invalid reply message or threadID");
       throw new Error("Invalid reply message or threadID");
