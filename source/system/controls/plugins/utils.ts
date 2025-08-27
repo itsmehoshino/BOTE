@@ -25,12 +25,16 @@ const utils = {
     }
   },
   registerCommand(command: AxionNS.Command) {
-    if (!command) {
+    if (!command || !command.meta) {
       throw new TypeError("Malformed/Incomplete Command");
     }
     const { meta, onCall } = command;
+    meta.author ??= [];
+    meta.aliases ??= [];
+    meta.description ??= "";
+    meta.noPrefix ??= false;
     if (!meta?.name || typeof onCall !== "function") {
-      throw new TypeError("The command is missing meta.name and a correct oncall function")
+      throw new TypeError("The command is missing meta.name and a correct oncall function");
     }
     Axion.commands.set(meta.name, command);
   },

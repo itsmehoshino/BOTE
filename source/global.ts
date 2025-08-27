@@ -21,10 +21,15 @@ declare global {
     }
     export interface CommandMeta {
       /**
-       * Self-explanatory, the name of the command
+       * Self-explanatory, the MAIN name of the command
        * Must have NO SPACES, everything must be LOWERCASE, do not use hypens (-)
        */
       name: string;
+      /**
+       * Array of other names of the command
+       * Must have NO SPACES, everything must be LOWERCASE, do not use hypens (-)
+       */
+      aliases?: string[];
       /**
        * Anything that describes the command.
        */
