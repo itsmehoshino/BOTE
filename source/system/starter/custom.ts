@@ -1,12 +1,7 @@
 import chalk from "chalk";
 import gradient from "gradient-string";
 
-type GradientFunction = (text: string) => string;
-type ThemeKeys = 'galaxy' | 'aqua' | 'hacker' | 'flame' | 'rose' | 'sunflower' | 'default';
-type Themes = Record<ThemeKeys, GradientFunction>;
-
-// damn francis thats smart
-const themes: Themes = {
+const themes = {
   galaxy: gradient(["#1B263B", "#6B7280", "#9D4EDD", "#C77DFF"]),
   aqua: gradient(["#00A8CC", "#48CAE4", "#90E0EF", "#ADE8F4"]),
   hacker: gradient(["#0D1B2A", "#1B263B", "#00FF00", "#40C057"]),
@@ -14,10 +9,16 @@ const themes: Themes = {
   rose: gradient(["#FF69B4", "#FF8C94", "#FFC1CC", "#FFE4E1"]),
   sunflower: gradient(["#FFC107", "#FFCA28", "#FFD54F", "#FFECB3"]),
   default: gradient(["#4B5EAA", "#7B9FE7"]),
-};
+} as const;
 
-export function log(category: string, message: unknown, theme: string = "aqua") {
-  const selectedGradient = themes[theme.toLowerCase() as ThemeKeys] || themes.default;
+type _Themes = typeof themes;
+
+export interface Themes extends _Themes {}
+
+export type ThemeKeys = keyof Themes;
+
+export function log(category: string, message: unknown, theme: ThemeKeys = "aqua") {
+  const selectedGradient = themes[theme] ?? themes.default;
   const colorizedCategory = chalk.bold(selectedGradient(` ${category} `));
   console.log(`${colorizedCategory}`, message);
 }
