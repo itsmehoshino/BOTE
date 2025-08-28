@@ -1,6 +1,6 @@
 import utils from "@ax-plugins/utils";
 import { AxionResponse } from "@ax-handler/response/response";
-import { API, Message, MessageReply } from "ws3-fca";
+import { API, Message } from "ws3-fca";
 import EventEmitter from "events";
 
 declare global {
@@ -49,10 +49,18 @@ declare global {
        */
       noPrefix?: true | false | "both";
     }
+    export interface CCall {
+      argsAt(index: number, split?: string): string;
+      event: CommandContext["event"];
+      hasPrefix: boolean;
+      commandName: string;
+      currentCommand: null | Command;
+    }
     export interface CommandContext {
       response: AxionResponse;
       api: API;
-      event: Message | MessageReply;
+      event: Omit<Message, "type"> & { type: "message" | "messageReply" };
+      ccall: CCall;
     }
     export interface Cooldown {}
     export interface Reply {}
@@ -86,13 +94,17 @@ declare global {
        * Registers a VALID command with type-safety.
        * Must obey the correct command structure.
        */
-      registerCmd(cmd: Command): ReturnType<typeof utils.registerCommand>
+      registerCmd(cmd: Command): ReturnType<typeof utils.registerCommand>;
     }
   }
 
   var Axion: AxionNS.Global;
 
   var bot: EventEmitter;
+
+  var log: typeof log2;
 }
+
+import { log as log2 } from "@ax-ui/custom";
 
 export default " : ) ";

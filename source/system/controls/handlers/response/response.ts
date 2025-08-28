@@ -1,13 +1,13 @@
 import { promisify } from "util";
 import { log } from "@ax-ui/custom";
-import { API, MessageObject, Message } from "ws3-fca";
+import { API, MessageObject } from "ws3-fca";
 
 export class AxionResponse {
-  private event: Message;
+  private event: AxionNS.CommandContext["event"];
   private sendMessage;
   private editMessage;
 
-  constructor(api: API, event: Message) {
+  constructor(api: API, event: AxionNS.CommandContext["event"]) {
     if (
       !api ||
       !event ||

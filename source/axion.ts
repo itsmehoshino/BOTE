@@ -9,6 +9,7 @@ import { API } from "ws3-fca";
 
 const bot = new EventEmitter();
 globalThis.bot = bot;
+globalThis.log = log;
 
 process.on("unhandledRejection", (error) => log("ERROR", error));
 process.on("uncaughtException", (error) => log("ERROR", error.stack));

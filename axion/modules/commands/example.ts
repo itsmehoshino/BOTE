@@ -6,7 +6,8 @@ Axion.registerCmd({
     noPrefix: "both",
     aliases: ["ex", "test"],
   },
-  async onCall({ response }) {
+  async onCall({ response, ccall }) {
+    
     if (Math.random() < 0.5) {
       response.reply("Hello, example.");
     } else {
