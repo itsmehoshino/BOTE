@@ -2,7 +2,7 @@ import { log } from "@ax-ui/custom";
 import utils from "@ax-plugins/utils";
 import { login } from "@ax-login/facebook-login";
 
-export default async function starter(){
+export default async function starter() {
   log("AXION", "Starting Axion...");
   log("AXION", "Running on version " + process.version);
   log("AXION", "Running on platform " + process.platform);
@@ -11,5 +11,10 @@ export default async function starter(){
   log("AXION", "Loading Events");
   utils.loadEvents();
   log("AXION", "Logging in..");
-  login();
+
+  try {
+    Axion.api = await login();
+  } catch (err) {
+    
+  }
 }

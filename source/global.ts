@@ -4,7 +4,8 @@ import { API, Message, MessageReply } from "ws3-fca";
 import EventEmitter from "events";
 
 declare global {
-  type AxionConfig = typeof import("../settings.json");
+  export type Appstate = typeof import("../state.json");
+  export type AxionConfig = typeof import("../settings.json");
 
   /**
    * AxionNS Namespace
@@ -58,6 +59,10 @@ declare global {
     export interface EventCommand {}
     export interface Config extends AxionConfig {}
     export interface Global {
+      /**
+       * API exposed globally.
+       */
+      api: API;
       /**
        * Real-time JSON Data for settings.json
        */

@@ -5,6 +5,7 @@ import { log } from "@ax-ui/custom";
 import starter from "@ax-ui/console";
 import EventEmitter from "events";
 import "./global";
+import { API } from "ws3-fca";
 
 const bot = new EventEmitter();
 globalThis.bot = bot;
@@ -13,6 +14,7 @@ process.on("unhandledRejection", (error) => log("ERROR", error));
 process.on("uncaughtException", (error) => log("ERROR", error.stack));
 
 globalThis.Axion = {
+  api: null as unknown as API,
   get config(): AxionNS.Config {
     try {
       return JSON.parse(
