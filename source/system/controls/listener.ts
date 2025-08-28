@@ -1,10 +1,16 @@
 import { AxionResponse } from "@ax-handler/response/response";
+import { ListenEvent } from "ws3-fca";
 
 export async function messageListener(
   api: AxionNS.CommandContext["api"],
-  event: AxionNS.CommandContext["event"],
+  event: ListenEvent | AxionNS.CommandContext["event"],
 ) {
-  if (event.type === "message" || event.type === "messageReply") {
+  const typeGuardBecaueWs3FcaTypesSoDumbAsf = (
+    e: AxionNS.CommandContext["event"] | ListenEvent,
+  ): e is AxionNS.CommandContext["event"] => {
+    return ["message", "messageReply"].includes(e.type);
+  };
+  if (typeGuardBecaueWs3FcaTypesSoDumbAsf(event)) {
     let [commandName, ..._arg] = `${event.body ?? ""}`
       .split(" ")
       .filter(Boolean);

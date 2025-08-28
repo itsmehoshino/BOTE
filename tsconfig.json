@@ -23,8 +23,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@root": ["./*"],
-      "@ax-src": ["./source/*"],
       "@ax-ui/*": ["./source/system/starter/*"],
       "@ax-login/*": ["./source/system/controls/plugins/logger/*"],
       "@ax-sys/*": ["./source/system/controls/*"],
