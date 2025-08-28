@@ -22,5 +22,8 @@
     "tsconfig-paths": "^4.2.0",
     "util": "^0.12.5",
     "ws3-fca": "github:NethWs3Dev/ws3-fca"
+  },
+  "devDependencies": {
+    "@types/gradient-string": "^1.1.6"
   }
 }
