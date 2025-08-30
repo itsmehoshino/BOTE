@@ -66,7 +66,7 @@ export async function messageListener(
       }
     }
     if (!ccall.currentCommand && hasPrefix) {
-      await response.reply(`Command '${ccall.commandName}' doesn't exist.`);
+      await response.reply(`Command ${ccall.commandName ? `\`${ccall.commandName}\`` : `you are using`} doesn't **exist**.`);
       return;
     }
   }

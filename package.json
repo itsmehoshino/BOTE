@@ -5,6 +5,7 @@
   },
   "module": "CommonJS",
   "dependencies": {
+    "@nea-liane/styler": "^1.2.6",
     "@types/fs-extra": "^11.0.4",
     "axios": "^1.11.0",
     "chalk": "^4.1.2",

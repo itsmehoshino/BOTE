@@ -1,7 +1,15 @@
 import { promisify } from "util";
 import { log } from "@ax-ui/custom";
 import { API, MessageObject } from "ws3-fca";
-
+import { autoBold } from "@nea-liane/styler";
+export function normalizeForm(form: string | MessageObject): MessageObject {
+  if (typeof form === "string") {
+    return {
+      body: form,
+    }
+  }
+  return typeof form === "object" && form ? { ...form } : {}
+}
 export class AxionResponse {
   private event: AxionNS.CommandContext["event"];
   private sendMessage;
@@ -30,7 +38,11 @@ export class AxionResponse {
     }
     try {
       const threadID = goal || this.event.threadID;
-      const result = await this.sendMessage(message, threadID, undefined);
+      let formattedMessage = normalizeForm(message);
+      if (formattedMessage.body) {
+        formattedMessage.body = autoBold(formattedMessage.body);
+      }
+      const result = await this.sendMessage(formattedMessage, threadID, undefined);
       log("INFO", `Sent message to thread ${threadID}`);
       return { ...result };
     } catch (err) {
@@ -47,7 +59,11 @@ export class AxionResponse {
     }
     try {
       const threadID = goal || this.event.threadID;
-      const result = await this.sendMessage(message, threadID, undefined);
+      let formattedMessage = normalizeForm(message);
+      if (formattedMessage.body) {
+        autoBold(formattedMessage.body);
+      }
+      const result = await this.sendMessage(formattedMessage, threadID, undefined);
       log("INFO", `Set reply message to thread ${threadID}`);
       const messageID = result?.messageID;
       return {
@@ -85,7 +101,10 @@ export class AxionResponse {
     }
     try {
       const threadID = goal || this.event.threadID;
-      let formattedMessage = message;
+      let formattedMessage = normalizeForm(message);
+      if (formattedMessage.body) {
+        formattedMessage.body = autoBold(formattedMessage.body);
+      }
       const result = await this.sendMessage(
         formattedMessage,
         threadID,
