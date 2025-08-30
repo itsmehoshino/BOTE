@@ -19,7 +19,7 @@ export class AxionResponse {
       throw new Error("Invalid Response initialization");
     }
     this.event = event;
-    this.sendMessage = promisify(api.sendMessageMqtt.bind(api));
+    this.sendMessage = promisify(api.sendMessage.bind(api));
     this.editMessage = promisify(api.editMessage.bind(api));
   }
 

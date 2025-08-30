@@ -1,6 +1,6 @@
 {
-  "prefix": "%",
-  "subprefix": "",
+  "prefix": "/",
+  "subprefix": ["!", "$"],
   "blacklist": ["", ""],
   "developers": ["", ""],
   "moderators": ["", ""],

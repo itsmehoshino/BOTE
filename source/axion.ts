@@ -29,7 +29,7 @@ globalThis.Axion = {
         developers: [],
         moderators: [],
         prefix: "",
-        subprefix: "",
+        subprefix: [""],
       };
     }
   },

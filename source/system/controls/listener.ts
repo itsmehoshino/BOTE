@@ -50,13 +50,24 @@ export async function messageListener(
           (alias) => `${alias}`.toLowerCase() === commandName,
         ),
     );
-    if (command !== undefined) {
+    handleCmd: {
+      if (command === undefined || !command?.meta) {
+        break handleCmd;
+      }
+      if (!hasPrefix && command.meta.noPrefix !== true) {
+        break handleCmd;
+      }
+
       ccall.currentCommand = command;
       try {
         await command.onCall(context);
       } catch (err) {
         log("COMMANDERR", err);
       }
+    }
+    if (!ccall.currentCommand && hasPrefix) {
+      await response.reply(`Command '${ccall.commandName}' doesn't exist.`);
+      return;
     }
   }
 }
