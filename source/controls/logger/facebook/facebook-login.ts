@@ -1,6 +1,5 @@
-import { login } from "ws3-fca";
+import { login } from "./ws3-fca/module/index";
 import { readFile } from "fs/promises";
-import { listener } from "@sy-listener";
 
 let credentials;
 
