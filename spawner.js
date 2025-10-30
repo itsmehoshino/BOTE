@@ -1,6 +1,6 @@
 const { spawn } = require("child_process");
 
-function launchProcess() {
+function launchProcess(instanceIndex) {
   const childProcess = spawn(
     "node",
     ["--trace-warnings", "--async-stack-traces", "./starter.js"],
@@ -9,16 +9,17 @@ function launchProcess() {
       stdio: "inherit",
       env: {
         ...process.env,
+        INSTANCE_INDEX: instanceIndex,
       },
-    },
+    }
   );
 
   childProcess.on("close", (exitCode) => {
-    if (exitCode === 3) {
+    if (exitCode !== 0) {
       console.log(
-        `API server process exited with code ${exitCode}. Restarting...`,
+        `API server process exited with code ${exitCode}. Restarting...`
       );
-      launchProcess();
+      launchProcess(instanceIndex);
     }
   });
 
@@ -28,7 +29,7 @@ function launchProcess() {
 }
 
 async function startApp() {
-  launchProcess();
+  launchProcess(1);
 }
 
 startApp();

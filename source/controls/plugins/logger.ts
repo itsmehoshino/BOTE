@@ -17,7 +17,7 @@ export interface Themes extends _Themes {}
 
 export type ThemeKeys = keyof Themes;
 
-export function log(category: string, message: unknown, theme: ThemeKeys = "aqua") {
+export function log(category: string, message: unknown, theme: ThemeKeys = "flame") {
   const selectedGradient = themes[theme] ?? themes.default;
   const colorizedCategory = chalk.bold(selectedGradient(` ${category} `));
   console.log(`${colorizedCategory}`, message);

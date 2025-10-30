@@ -1,110 +1,61 @@
-import utils from "@ax-plugins/utils";
-import { AxionResponse } from "@ax-handler/response/response";
-import { API, Message } from "ws3-fca";
-import EventEmitter from "events";
+import { API } from "ws3-fca";
 
 declare global {
-  export type Appstate = typeof import("../state.json");
-  export type AxionConfig = typeof import("../settings.json");
+  var bot: import('events').EventEmitter;
+  var Sypher: SypherAI.GlobalSypher;
 
-  /**
-   * AxionNS Namespace
-   * ========
-   * Contains most of types/interfaces important for Axion to work.
-   */
-  export namespace AxionNS {
-    export interface Command {
-      meta: CommandMeta;
-      /**
-       * This runs every time the command/cmd were invoked
-       * This does NOT allow return values.
-       * Must be an async function or must return a Promise<void>
-       * @param ctx - Contains response, and other interaction objects.
-       */
-      onCall(ctx: CommandContext): Promise<void>;
+  namespace SypherAI {
+    interface GlobalSypher {
+      config: typeof import("../settings.json");
+      commands: Map<string, any>;
+      events: Map<string, any>;
+      cooldowns: Map<string, number>;
+      replies: Map<string, any>;
+      reactions: Map<string, any>;
+      utils: SypherUtils;
     }
-    export interface CommandMeta {
-      /**
-       * Self-explanatory, the MAIN name of the command
-       * Must have NO SPACES, everything must be LOWERCASE, do not use hypens (-)
-       */
+
+    interface Command {
       name: string;
-      /**
-       * Array of other names of the command
-       * Must have NO SPACES, everything must be LOWERCASE, do not use hypens (-)
-       */
-      aliases?: string[];
-      /**
-       * Anything that describes the command.
-       */
+      usage: string;
+      author: string;
+      aliases: string[];
       description: string;
-      /**
-       * Array<string> of github usernames of the programmers who contributed to this command.
-       */
-      author: string[];
-      /**
-       * True - the command calls with/without a prefix
-       * False - the command calls with a prefix
-       * Both - same as True
-       */
-      noPrefix?: true | false | "both";
+      onCall: (params: { api: API; event: Event; args: string[]; response: Response; fonts: Fonts }) => Promise<void>
     }
-    export interface CCall {
-      argsAt(index: number, split?: string): string;
-      event: CommandContext["event"];
-      hasPrefix: boolean;
-      commandName: string;
-      currentCommand: null | Command;
+
+    interface EventCMD {
+      name: string;
+      description: string;
+      onEvent: (params: { api: API; event: Event }) => Promise<void>
     }
-    export interface CommandContext {
-      response: AxionResponse;
-      api: API;
-      event: Omit<Message, "type"> & { type: "message" | "messageReply" };
-      ccall: CCall;
+
+    interface Event {
+      type: string;
+      threadID: string;
+      messageID: string;
+      senderID: string;
+      body: string
     }
-    export interface Cooldown {}
-    export interface Reply {}
-    export interface EventCommand {}
-    export interface Config extends AxionConfig {}
-    export interface Global {
-      /**
-       * API exposed globally.
-       */
-      api: API;
-      /**
-       * Real-time JSON Data for settings.json
-       */
-      get config(): AxionConfig;
-      /**
-       * Overrides settings.json real-time
-       */
-      set config(config: AxionConfig);
-      cooldown: Map<string, Cooldown>;
-      /**
-       * Map of commands (reusable)
-       */
-      commands: Map<string, Command>;
-      replies: Map<string, Reply>;
-      events: Map<string, EventCommand>;
-      /**
-       * All utilities.
-       */
-      utils: typeof utils;
-      /**
-       * Registers a VALID command with type-safety.
-       * Must obey the correct command structure.
-       */
-      registerCmd(cmd: Command): ReturnType<typeof utils.registerCommand>;
+
+    interface Fonts {
+      sans: (text: string) => string;
+      bold: (text: string) => string;
+      mono: (text: string) => string;
+      italic: (text: string) => string;
+      outline: (text: string) => string;
+    }
+
+    interface Response {
+      send: (message: string) => Promise<void>;
+      react: (emoji: string) => Promise<void>;
+    }
+
+    interface SypherUtils {
+      loadCommands: () => Promise<void>;
+      loadEvents: () => Promise<void>;
     }
   }
-
-  var Axion: AxionNS.Global;
-
-  var bot: EventEmitter;
-
-  var log: typeof log2;
 }
 
-import { log as log2 } from "@ax-ui/custom";
-
-export default " : ) ";
+export {};
